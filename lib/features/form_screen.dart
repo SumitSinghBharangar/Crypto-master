@@ -180,8 +180,10 @@ class _FormScreenState extends State<FormScreen> {
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     builder: (context) {
                       return Container(
+                        height: MediaQuery.of(context).size.height * 0.8,
                         padding: EdgeInsets.only(
                           bottom: MediaQuery.paddingOf(context).bottom + 10,
                           right: 20,
@@ -221,7 +223,7 @@ class _FormScreenState extends State<FormScreen> {
                                 child: Column(
                                   children: [
                                     ...List.generate(
-                                      4,
+                                      networks.length,
                                       (i) {
                                         return GestureDetector(
                                             onTap: () {
@@ -236,11 +238,11 @@ class _FormScreenState extends State<FormScreen> {
                                               Navigator.pop(context);
                                             },
                                             child: NetworkWidgetCard(
-                                                networkName: networks[i],
-                                                deposit: minimumDeposit[i],
-                                                fee: "0.0",
-                                                networkFee: "${feeList[i]} BTC",
-                                                widthdrawl: feeList[i]));
+                                              networkName: networks[i],
+                                              deposit: minimunWithdrawl[i],
+                                              widthdrawl: feeList[i],
+                                              arrivalTime: arrivalTime[i],
+                                            ));
                                       },
                                     )
                                   ],
@@ -732,9 +734,61 @@ class _FormScreenState extends State<FormScreen> {
 
 List<String> networks = [
   "BNB Smart Chain (BEP20)",
-  "BTC(SegWit)",
+  "opBNB",
+  "Tron (TRC20)",
+  "toncoin",
+  "Polygon POS",
   "Ethereum (ERC20)",
-  "Lightning Network",
+  "Arbitrum One",
+  "Solana",
+  "AVAX C-Chain",
+  "Optimism",
+  "NEAR Protocol",
+  "EOS",
+];
+List<String> feeList = [
+  "Fee 0 USDT",
+  "Fee 0 USDT",
+  r"Fee 1 USDT ( =$1.00)",
+  r"Fee 0.3 USDT ( =$0.30000000)",
+  r"Fee 0.08 USDT ( =$0.08000000)",
+  r"Fee 6 USDT ( =$6.00)",
+  r"Fee 0.16 USDT ( =$0.16000000)",
+  r"Fee 1.8 USDT ( =$1.80)",
+  r"Fee 0.14 USDT ( =$1.14000000)",
+  r"Fee 0.031 USDT ( =$1.3100000)",
+  r"Fee 0.2 USDT ( =$0.20000000)",
+  r"Fee 1 USDT ( =$1.0)",
+];
+
+List<String> minimunWithdrawl = [
+  "Minimum withdrawal 10 USDT",
+  "Minimum withdrawal 20 USDT",
+  "Minimum withdrawal 10 USDT",
+  "Minimum withdrawal 5 USDT",
+  "Minimum withdrawal 4 USDT",
+  "Minimum withdrawal 16 USDT",
+  "Minimum withdrawal 0.32 USDT",
+  "Minimum withdrawal 0.30 USDT",
+  "Minimum withdrawal 0.28 USDT",
+  "Minimum withdrawal 0.062 USDT",
+  "Minimum withdrawal 10 USDT",
+  "Minimum withdrawal 10 USDT",
+];
+
+List<String> arrivalTime = [
+  "Arrival time = 5 mins",
+  "Arrival time = 2 mins",
+  "Arrival time = 2 mins",
+  "",
+  "Arrival time = 8 mins",
+  "Arrival time = 4 mins",
+  "Arrival time = 3 mins",
+  "Arrival time = 4 mins",
+  "Arrival time = 2 mins",
+  "Arrival time = 2 mins",
+  "Arrival time = 2 mins",
+  "Arrival time = 2 mins",
 ];
 
 List<String> minimumDeposit = [
@@ -742,18 +796,4 @@ List<String> minimumDeposit = [
   ">0.00000002",
   ">0.00000002",
   ">0.00000001",
-];
-
-List<String> minimunWithdrawl = [
-  "10",
-  "0.002",
-  "0.00016",
-  "0.00002",
-];
-
-List<String> feeList = [
-  "0",
-  "0.001",
-  "0.000078",
-  "0.000001",
 ];

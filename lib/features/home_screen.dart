@@ -35,6 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _onRefresh() async {
     // Call fetchData to refresh the data when pulled
     Provider.of<HomeProvider>(context, listen: false).fetchCoins();
+    Provider.of<HomeProvider>(context, listen: false).fetchApiData();
   }
 
   @override
@@ -373,6 +374,17 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         return Row(
                           children: [
+                            Container(
+                              height: 32,
+                              width: 32,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child:
+                                    Image.asset("assets/icons/${item.image}"),
+                              ),
+                            ),
                             // Container(
                             //   width: 32,
                             //   height: 32,

@@ -1,11 +1,13 @@
+import 'package:binance/features/form_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NetworkWidgetCard extends StatelessWidget {
   String networkName;
   String deposit;
-  String fee;
-  String networkFee;
+  String arrivalTime;
+  // String fee;
+  // String networkFee;
   String widthdrawl;
 
   NetworkWidgetCard({
@@ -13,8 +15,9 @@ class NetworkWidgetCard extends StatelessWidget {
     required this.networkName,
     required this.widthdrawl,
     required this.deposit,
-    required this.fee,
-    required this.networkFee,
+    required this.arrivalTime,
+    // required this.fee,
+    // required this.networkFee,
   });
 
   @override
@@ -43,14 +46,6 @@ class NetworkWidgetCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "Minimum Deposit",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const Spacer(),
-              Text(
                 deposit,
                 style: const TextStyle(
                   fontSize: 14,
@@ -61,35 +56,8 @@ class NetworkWidgetCard extends StatelessWidget {
           ),
           Row(
             children: [
-              const Text(
-                "Minimun Withdrawal",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const Spacer(),
               Text(
                 widthdrawl,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              const Text(
-                "Diposit Fee ",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const Spacer(),
-              Text(
-                fee,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.grey,
@@ -101,16 +69,8 @@ class NetworkWidgetCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                "fee",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const Spacer(),
               Text(
-                networkFee,
+                arrivalTime,
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.grey,

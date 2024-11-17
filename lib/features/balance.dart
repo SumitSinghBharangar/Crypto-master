@@ -14,11 +14,13 @@ class BalanceTextWidget extends StatelessWidget {
           .get(), // Fetch the document snapshot
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text('Loading...'); // Show loading state while fetching data
+          return const Text(
+              'Loading...'); // Show loading state while fetching data
         }
 
         if (snapshot.hasError) {
-          return const Text('Error loading balance'); // Show error message if fetch fails
+          return const Text(
+              'Error loading balance'); // Show error message if fetch fails
         }
 
         if (!snapshot.hasData || !snapshot.data!.exists) {

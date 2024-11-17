@@ -37,6 +37,7 @@ flutter:
     - assets/
     - assets/svg/
     - assets/fonts/
+    - assets/icons/
 
   fonts:
     - family: BinancePlex
