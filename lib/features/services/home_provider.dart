@@ -1,10 +1,48 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
+import 'package:binance/common/models/api_model.dart';
 import 'package:binance/common/models/coin_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class HomeProvider extends ChangeNotifier {
+  List<ApiModel> _data = [];
+  List<ApiModel> get data => _data;
+
+  Timer? _timer;
+
+  ApiProvider() {
+    fetchApiData(); // Fetch initial data
+    _timer = Timer.periodic(Duration(seconds: 2), (timer) => fetchApiData());
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Cancel the timer when the provider is disposed
+    super.dispose();
+  }
+
+  Future<void> fetchApiData() async {
+    log("api fetching");
+    const String url = 'https://app.quizzifyme.com/';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> jsonData = json.decode(response.body);
+        _data = jsonData.map((e) => ApiModel.fromJson(e)).toList();
+        log("data fetched successfully");
+        notifyListeners(); // Notify listeners to rebuild the UI
+      } else {
+        debugPrint('Failed to fetch data: ${response.statusCode}');
+      }
+    } catch (e) {
+      debugPrint('Error fetching data: $e');
+    }
+  }
+
   List<CoinModel>? coins;
   List<CoinModel>? coins2;
 

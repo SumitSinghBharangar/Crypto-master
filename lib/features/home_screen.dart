@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HomeProvider>(context, listen: false).fetchCoins();
+      Provider.of<HomeProvider>(context, listen: false).fetchApiData();
     });
   }
 
@@ -307,6 +308,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Padding _homeBody() {
+    final apiProvider = Provider.of<HomeProvider>(context);
     return Padding(
       padding: EdgeInsets.only(top: MediaQuery.paddingOf(context).top),
       child: NestedScrollView(
@@ -363,54 +365,56 @@ class _HomeScreenState extends State<HomeScreen> {
                         top: 20,
                         bottom: MediaQuery.paddingOf(context).bottom + 100,
                       ),
-                      itemCount: value.coins?.length ?? 0,
+                      itemCount: apiProvider.data.length,
                       itemBuilder: (context, index) {
-                        CoinModel coin = value.coins![index];
+                        final item = apiProvider.data[index];
+
+                        // CoinModel coin = value.coins![index];
 
                         return Row(
                           children: [
-                            Container(
-                              width: 32,
-                              height: 32,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: coin.iconUrl
-                                      .split('.')
-                                      .last
-                                      .toLowerCase()
-                                      .contains('svg')
-                                  ? Center(
-                                      child: SvgPicture.network(
-                                        coin.iconUrl,
-                                        height: 32,
-                                      ),
-                                    )
-                                  : Center(
-                                      child: Image.network(
-                                        coin.iconUrl,
-                                        height: 32,
-                                      ),
-                                    ),
-                            ),
+                            // Container(
+                            //   width: 32,
+                            //   height: 32,
+                            //   decoration: const BoxDecoration(
+                            //     shape: BoxShape.circle,
+                            //   ),
+                            //   child: coin.iconUrl
+                            //           .split('.')
+                            //           .last
+                            //           .toLowerCase()
+                            //           .contains('svg')
+                            //       ? Center(
+                            //           child: SvgPicture.network(
+                            //             coin.iconUrl,
+                            //             height: 32,
+                            //           ),
+                            //         )
+                            //       : Center(
+                            //           child: Image.network(
+                            //             coin.iconUrl,
+                            //             height: 32,
+                            //           ),
+                            //         ),
+                            // ),
                             const SizedBox(width: 14),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    coin.name,
+                                    item.name ?? "",
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Text(
-                                    coin.symbol,
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                    ),
-                                  ),
+                                  // Text(
+                                  //   coin.symbol,
+                                  //   style: const TextStyle(
+                                  //     color: Colors.grey,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                             ),
@@ -418,19 +422,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Text(
-                                  coin.change.contains('-')
-                                      ? coin.change
-                                      : ("+${coin.change}"),
+                                  item.movement == "Up"
+                                      ? "+${item.percentage}"
+                                      : "-${item.percentage}",
+                                  // coin.change.contains('-')
+                                  //     ? coin.change
+                                  //     : ("+${coin.change}"),
                                   style: TextStyle(
-                                    color: !coin.change.contains('-')
+                                    color: item.movement == "Up"
                                         ? Colors.green
                                         : Colors.red,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
                                 ),
-                                Text(
-                                    "\$ ${(num.parse(coin.price)).toStringAsFixed(2)}"),
+                                Text("\$ ${item.price}"),
                               ],
                             ),
                           ],
