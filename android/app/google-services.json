@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "942435787715",
+    "project_id": "crypto-bab77",
+    "storage_bucket": "crypto-bab77.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942435787715:android:e810ee174e50d7d5a79376",
+        "android_client_info": {
+          "package_name": "com.example.binance"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAk5rsWdV5IeG8MH-8P8gTxSq9i9SCRwBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

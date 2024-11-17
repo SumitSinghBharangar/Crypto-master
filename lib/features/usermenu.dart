@@ -1,0 +1,177 @@
+import 'package:binance/features/userdetail.dart';
+import 'package:flutter/material.dart';
+import '../common/app_colors.dart';
+
+class UserMenu extends StatelessWidget {
+  const UserMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Get screen width for responsive layout
+    double screenWidth = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 15),
+            child: Image.asset(
+              'assets/IMG_20241114_091824.jpg',
+              width: screenWidth > 600 ? 90 : 70, // Adjust size for tablet vs mobile
+            ),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const UserDetails(),
+                    ),
+                  );
+                },
+                icon: Image.asset(
+                  'assets/IMG_20241113_183832.jpg',
+                  width: screenWidth > 600 ? 150 : 120, // Larger image for tablet
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10),
+                    Text(
+                      'ID: 518851134',
+                      style: TextStyle(
+                        color: Colors.grey.withOpacity(.8),
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'User-cfa21',
+                      style: TextStyle(
+                        color: AppColors.onSurface,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "BinancePlex",
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Container(
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFe3f7ee),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Verified',
+                              style: TextStyle(color: Color(0xFF00c080)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Container(
+                          width: 70,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFfdf6e4),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: const Center(
+                            child: Text(
+                              'Regular',
+                              style: TextStyle(color: Color(0xFFCAA223)),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    children: [
+                      Image.asset(
+                        'assets/IMG-20241114-WA0108-removebg-preview.png',
+                        width: 10,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Divider(
+            color: Colors.grey.withOpacity(.2),
+            thickness: 0.5,
+          ),
+          const SizedBox(height: 32),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildMenuItem('assets/IMG_20241114_094409.jpg', 'Deposit'),
+              _buildMenuItem('assets/IMG-20241114-WA0101-removebg-preview.png', 'Convert'),
+              _buildMenuItem('assets/IMG_20241114_094531.jpg', 'Referral'),
+              _buildMenuItem('assets/IMG_20241114_094511.jpg', 'Rewards\n    Hub'),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _buildMenuItem('assets/IMG_20241114_094443.jpg', 'FAQ'),
+              const SizedBox(width: 50,),
+              const SizedBox(width: 50,),
+              const SizedBox(width: 50,)
+            ],
+          ),
+          // Move the image here to make it appear at the bottom
+          const Expanded(child: SizedBox()),  // Ensure image is at the bottom of the screen
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Image.asset(
+              'assets/IMG_20241114_073411.jpg',
+              width: double.infinity,
+              height: 80,
+            ),
+          ),
+          SizedBox(height: 15,),
+        ],
+      ),
+    );
+  }
+
+  // Helper widget for menu items
+  Widget _buildMenuItem(String asset, String text) {
+    return Column(
+      children: [
+        Image.asset(
+          asset,
+          width: 25,
+        ),
+        const SizedBox(height: 10),
+        Text(text),
+      ],
+    );
+  }
+}
