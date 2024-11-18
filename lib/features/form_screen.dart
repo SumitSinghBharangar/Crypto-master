@@ -176,7 +176,9 @@ class _FormScreenState extends State<FormScreen> {
               const SizedBox(height: 8),
               TextFormField(
                 controller: _editingController,
+                cursorColor: AppColors.primaryColor,
                 keyboardType: TextInputType.none,
+                readOnly: true,
                 onTap: () {
                   showModalBottomSheet(
                     context: context,
@@ -227,9 +229,8 @@ class _FormScreenState extends State<FormScreen> {
                                       (i) {
                                         return GestureDetector(
                                             onTap: () {
-                                              networkFee =
-                                                  double.tryParse(feeList[i]) ??
-                                                      0.0;
+                                              networkFee = double.parse(
+                                                  networkFeeList[i]);
                                               setState(() {
                                                 _editingController.text =
                                                     networks[i];
@@ -791,9 +792,17 @@ List<String> arrivalTime = [
   "Arrival time = 2 mins",
 ];
 
-List<String> minimumDeposit = [
-  ">0.01",
-  ">0.00000002",
-  ">0.00000002",
-  ">0.00000001",
+List<String> networkFeeList = [
+  "0.0",
+  "0.0",
+  " 1.0",
+  " 0.3",
+  "0.08",
+  "6.0",
+  "0.16",
+  "1.8",
+  "0.14",
+  "0.031",
+  "0.2",
+  " 1.0"
 ];

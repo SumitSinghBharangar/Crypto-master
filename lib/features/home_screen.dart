@@ -40,12 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: _onRefresh,
-        color: Colors.blue,
-        backgroundColor: Colors.white,
-        child: Stack(
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      color: Colors.blue,
+      backgroundColor: Colors.white,
+      child: Scaffold(
+        body: Stack(
           children: [
             Positioned.fill(
               child: selected == 0 ? _homeBody() : const PortFolio(),
@@ -349,117 +349,123 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           ];
         },
-        body: Column(
-          children: [
-            Expanded(
-              child: Consumer<HomeProvider>(
-                builder: (context, value, child) {
-                  if (value.coins == null) {
-                    return const SizedBox.shrink();
-                  } else {
-                    return ListView.separated(
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 20),
-                      padding: EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                        top: 20,
-                        bottom: MediaQuery.paddingOf(context).bottom + 100,
-                      ),
-                      itemCount: apiProvider.data.length,
-                      itemBuilder: (context, index) {
-                        final item = apiProvider.data[index];
+        body: RefreshIndicator(
+          onRefresh: _onRefresh,
+          color: Colors.blue,
+          backgroundColor: Colors.white,
+          child: Column(
+            children: [
+              Expanded(
+                child: apiProvider.data.isEmpty
+                    ? Center(
+                        child: Image.asset(
+                          "assets/loading.gif",
+                          height: 50,
+                          width: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      )
+                    : ListView.separated(
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 20),
+                        padding: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                          top: 20,
+                          bottom: MediaQuery.paddingOf(context).bottom + 100,
+                        ),
+                        itemCount: apiProvider.data.length,
+                        itemBuilder: (context, index) {
+                          final item = apiProvider.data[index];
 
-                        // CoinModel coin = value.coins![index];
+                          // CoinModel coin = value.coins![index];
 
-                        return Row(
-                          children: [
-                            Container(
-                              height: 32,
-                              width: 32,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
+                          return Row(
+                            children: [
+                              Container(
+                                height: 32,
+                                width: 32,
+                                decoration: const BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Center(
+                                  child:
+                                      Image.asset("assets/icons/${item.image}"),
+                                ),
                               ),
-                              child: Center(
-                                child:
-                                    Image.asset("assets/icons/${item.image}"),
+                              // Container(
+                              //   width: 32,
+                              //   height: 32,
+                              //   decoration: const BoxDecoration(
+                              //     shape: BoxShape.circle,
+                              //   ),
+                              //   child: coin.iconUrl
+                              //           .split('.')
+                              //           .last
+                              //           .toLowerCase()
+                              //           .contains('svg')
+                              //       ? Center(
+                              //           child: SvgPicture.network(
+                              //             coin.iconUrl,
+                              //             height: 32,
+                              //           ),
+                              //         )
+                              //       : Center(
+                              //           child: Image.network(
+                              //             coin.iconUrl,
+                              //             height: 32,
+                              //           ),
+                              //         ),
+                              // ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.name ?? "",
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    // Text(
+                                    //   coin.symbol,
+                                    //   style: const TextStyle(
+                                    //     color: Colors.grey,
+                                    //   ),
+                                    // ),
+                                  ],
+                                ),
                               ),
-                            ),
-                            // Container(
-                            //   width: 32,
-                            //   height: 32,
-                            //   decoration: const BoxDecoration(
-                            //     shape: BoxShape.circle,
-                            //   ),
-                            //   child: coin.iconUrl
-                            //           .split('.')
-                            //           .last
-                            //           .toLowerCase()
-                            //           .contains('svg')
-                            //       ? Center(
-                            //           child: SvgPicture.network(
-                            //             coin.iconUrl,
-                            //             height: 32,
-                            //           ),
-                            //         )
-                            //       : Center(
-                            //           child: Image.network(
-                            //             coin.iconUrl,
-                            //             height: 32,
-                            //           ),
-                            //         ),
-                            // ),
-                            const SizedBox(width: 14),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    item.name ?? "",
-                                    style: const TextStyle(
-                                      fontSize: 16,
+                                    item.movement == "Up"
+                                        ? "+${item.percentage}"
+                                        : "-${item.percentage}",
+                                    // coin.change.contains('-')
+                                    //     ? coin.change
+                                    //     : ("+${coin.change}"),
+                                    style: TextStyle(
+                                      color: item.movement == "Up"
+                                          ? Colors.green
+                                          : Colors.red,
                                       fontWeight: FontWeight.bold,
+                                      fontSize: 16,
                                     ),
                                   ),
-                                  // Text(
-                                  //   coin.symbol,
-                                  //   style: const TextStyle(
-                                  //     color: Colors.grey,
-                                  //   ),
-                                  // ),
+                                  Text("\$ ${item.price}"),
                                 ],
                               ),
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  item.movement == "Up"
-                                      ? "+${item.percentage}"
-                                      : "-${item.percentage}",
-                                  // coin.change.contains('-')
-                                  //     ? coin.change
-                                  //     : ("+${coin.change}"),
-                                  style: TextStyle(
-                                    color: item.movement == "Up"
-                                        ? Colors.green
-                                        : Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                Text("\$ ${item.price}"),
-                              ],
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
+                            ],
+                          );
+                        },
+                      ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -541,21 +547,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     icon: SvgPicture.asset(
                       AppSvg.search,
                       color: AppColors.onSurface,
-                      width: 24,
+                      width: 20,
                     ),
                   ),
                   IconButton(
                     onPressed: () {},
                     icon: Image.asset(
                       AppImages.qr,
-                      width: 24,
+                      width: 20,
                     ),
                   ),
                   IconButton(
                     onPressed: () {},
                     icon: Image.asset(
                       AppImages.pen,
-                      width: 24,
+                      width: 20,
                     ),
                   ),
                 ],
