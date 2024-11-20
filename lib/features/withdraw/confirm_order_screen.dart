@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:binance/common/app_collection.dart';
+import 'package:binance/common/models/currency_model.dart';
+import 'package:binance/common/models/transection_model.dart';
 import 'package:binance/common/models/withdraw_model.dart';
 import 'package:binance/features/withdraw/withdraw_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ConfirmOrderScreen extends StatefulWidget {
+  String remaning;
+  String coinName;
   String networkFee;
   String withDrawAmount;
   String usAmount;
@@ -17,12 +21,14 @@ class ConfirmOrderScreen extends StatefulWidget {
   String address;
   ConfirmOrderScreen({
     super.key,
+    required this.remaning,
     required this.networkFee,
     required this.coinString,
     required this.usAmount,
     required this.withDrawAmount,
     required this.network,
     required this.address,
+    required this.coinName,
   });
 
   @override
@@ -101,7 +107,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             Text(
               "Receive amount",
               style:
-                  TextStyle(fontSize: 17, color: Colors.black.withOpacity(0.7)),
+                  TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.7)),
             ),
             const SizedBox(
               height: 10,
@@ -131,7 +137,10 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(r"= $"),
+                  const Text(
+                    r"= $",
+                    style: TextStyle(color: Colors.grey),
+                  ),
                   Text(
                     "${widget.usAmount}",
                     style: const TextStyle(color: Colors.grey),
@@ -200,17 +209,15 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  flex: 1,
+                const Flexible(
                   child: Text(
-                    "Widthdrawl Amount",
+                    "Withdrawal Amount",
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
-                const Spacer(),
-                Expanded(
-                  flex: 2,
+                Flexible(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -240,18 +247,16 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Expanded(
-                  flex: 1,
+                const Flexible(
                   child: Text(
                     "Network Fee",
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
                 const Spacer(),
-                Expanded(
-                  flex: 2,
+                Flexible(
                   child: Text(
                     "${widget.networkFee} ${widget.coinString}",
                     textAlign: TextAlign.end,
@@ -298,7 +303,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
-                color: Colors.black12,
+                color: Colors.grey.shade300.withOpacity(0.5),
               ),
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -306,7 +311,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 children: [
                   Icon(
                     Icons.info,
-                    size: 30,
+                    size: 20,
                   ),
                   SizedBox(
                     width: 10,
@@ -331,13 +336,23 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                   widget.coinString.toLowerCase(),
                   double.parse(widget.withDrawAmount),
                 );
-                WithdrawModel model = WithdrawModel(
-                    type: widget.coinString, amount: widget.withDrawAmount);
+                await cryptocurrencies.doc(widget.coinString).update({
+                  "Amount": widget.remaning,
+                });
 
-                await FirebaseFirestore.instance
-                    .collection('withdraw_history')
-                    .doc("vj9tmh02uYS4cPreIaGp")
-                    .update(model.toMap());
+                TransectionModel tmodel = TransectionModel(
+                    Amount: widget.withDrawAmount,
+                    CoinCode: widget.coinString,
+                    CoinName: widget.coinName,
+                    Time: DateTime.now(),
+                    Type: "Withdraw");
+
+                await transaction_history.doc().set(tmodel.toMap());
+
+                // await FirebaseFirestore.instance
+                //     .collection('withdraw_history')
+                //     .doc("vj9tmh02uYS4cPreIaGp")
+                //     .update(model.toMap());
                 log("Data updated successfully");
 
                 if (context.mounted) {

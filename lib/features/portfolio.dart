@@ -1,6 +1,5 @@
 import 'package:binance/common/app_collection.dart';
 import 'package:binance/common/app_colors.dart';
-import 'package:binance/common/models/coin_model.dart';
 import 'package:binance/common/models/currency_model.dart';
 import 'package:binance/common/models/transection_model.dart';
 import 'package:binance/features/convert/convert_screen.dart';
@@ -22,6 +21,7 @@ class PortFolio extends StatefulWidget {
 }
 
 class _PortFolioState extends State<PortFolio> {
+  bool hideBalance = false;
   @override
   Widget build(BuildContext context) {
     final w = Provider.of<HomeProvider>(context);
@@ -66,10 +66,10 @@ class _PortFolioState extends State<PortFolio> {
                       Row(
                         children: [
                           Text(
-                            "Total Balance",
+                            "Balance",
                             style: TextStyle(
-                              color: Colors.grey.shade600,
-                              fontWeight: FontWeight.bold,
+                              color: AppColors.onSurface,
+                              fontSize: 14,
                             ),
                           ),
                           const SizedBox(width: 8),
@@ -104,10 +104,9 @@ class _PortFolioState extends State<PortFolio> {
                                 return Text(
                                   "\$${snapshot.data?['balance'] ?? 0} ", // Changed € to $
                                   style: TextStyle(
-                                    fontSize: 32,
-                                    color: AppColors.onSurface,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                      color: AppColors.onSurface,
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600),
                                 );
                               }),
                           const Icon(
@@ -130,8 +129,9 @@ class _PortFolioState extends State<PortFolio> {
                               child: const Text(
                                 "Take Out",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
                                 ),
                               ),
                             ),
@@ -147,8 +147,9 @@ class _PortFolioState extends State<PortFolio> {
                               child: const Text(
                                 "Add Funds",
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
                                 ),
                               ),
                             ),
@@ -159,14 +160,14 @@ class _PortFolioState extends State<PortFolio> {
                     ],
                   ),
                 ),
-                Image.asset('assets/graph.png'),
-                const SizedBox(height: 10),
+                Image.asset('assets/images/portfolio_graph.jpeg'),
+                // const SizedBox(height: 10),
                 Container(
                   width: double.infinity,
                   height: 1,
                   color: Colors.grey.withOpacity(.1),
                 ),
-                const SizedBox(height: 20),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: StreamBuilder<QuerySnapshot>(
@@ -198,7 +199,7 @@ class _PortFolioState extends State<PortFolio> {
                         physics:
                             const NeverScrollableScrollPhysics(), // Prevents scrolling
                         separatorBuilder: (context, index) =>
-                            const SizedBox(height: 5),
+                            const SizedBox(height: 20),
                         itemCount: item.length,
                         itemBuilder: (context, index) {
                           final doc = item[index];
@@ -224,16 +225,19 @@ class _PortFolioState extends State<PortFolio> {
                               Expanded(
                                 child: Text(
                                   "Crypto ${model.Type} ${model.Amount} ${model.CoinCode}",
-                                  style: const TextStyle(fontSize: 12),
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.black,
+                                      fontSize: 12),
                                 ),
                               ),
                               const SizedBox(width: 5),
                               const Text(
                                 "Complete",
                                 style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 12,
-                                ),
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF14B8A6),
+                                    fontSize: 12),
                               ),
                               const SizedBox(width: 5),
                               const Icon(
@@ -253,6 +257,37 @@ class _PortFolioState extends State<PortFolio> {
                   width: double.infinity,
                   height: 1,
                   color: Colors.grey.withOpacity(.1),
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 30,
+                      child: Checkbox(
+                          side: const BorderSide(color: Colors.grey),
+                          value: hideBalance,
+                          activeColor: AppColors.primaryColor,
+                          onChanged: (value) {
+                            setState(() {});
+                            hideBalance = !hideBalance;
+                          }),
+                    ),
+                    const Text(
+                      "Hide 0 balances",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const Spacer(),
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.search,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
 
                 StreamBuilder<QuerySnapshot>(
@@ -322,7 +357,7 @@ class _PortFolioState extends State<PortFolio> {
                                       "assets/icons/${model.Code}.png"),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Expanded(
@@ -332,14 +367,18 @@ class _PortFolioState extends State<PortFolio> {
                                     Text(
                                       model.Name,
                                       style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
                                       ),
                                     ),
                                     Text(
                                       model.Code,
-                                      style:
-                                          const TextStyle(color: Colors.grey),
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 13,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -352,11 +391,19 @@ class _PortFolioState extends State<PortFolio> {
                                         .toStringAsFixed(2),
                                     style: TextStyle(
                                       color: AppColors.onSurface,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      // color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
                                     ),
                                   ),
-                                  Text("\$ ${dollVal.toStringAsFixed(2)}")
+                                  Text(
+                                    "\$${dollVal.toStringAsFixed(2)}",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 14,
+                                    ),
+                                  )
                                 ],
                               ),
                             ],
@@ -364,7 +411,7 @@ class _PortFolioState extends State<PortFolio> {
                         );
                       },
                       separatorBuilder: (context, index) =>
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
                       padding: EdgeInsets.only(
                         left: 20,
                         right: 20,

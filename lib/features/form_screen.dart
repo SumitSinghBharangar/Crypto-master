@@ -29,6 +29,8 @@ class _FormScreenState extends State<FormScreen> {
   final TextEditingController _controller = TextEditingController();
   final TextEditingController _addressControlle = TextEditingController();
 
+  int textfieldlines = 1;
+
   final _node = FocusNode();
   late bool max;
   late String withdrawalAmount;
@@ -121,9 +123,9 @@ class _FormScreenState extends State<FormScreen> {
         title: Text(
           "Send ${widget.coinString}",
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 16,
             color: AppColors.onSurface,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w600,
           ),
         ),
         actions: [
@@ -134,13 +136,13 @@ class _FormScreenState extends State<FormScreen> {
               width: 24,
             ),
           ),
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              'assets/report.png',
-              width: 24,
-            ),
-          ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: Image.asset(
+          //     'assets/report.png',
+          //     width: 24,
+          //   ),
+          // ),
         ],
       ),
       body: Padding(
@@ -154,7 +156,29 @@ class _FormScreenState extends State<FormScreen> {
               _field(
                 "Address",
                 "Long press to paste",
+                textfieldlines,
                 controller: _addressControlle,
+                validate: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Enter the Recipient's Address";
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  if (value.length > 30) {
+                    setState(() {
+                      textfieldlines = 2;
+                    });
+                  } else if (value.length > 60) {
+                    setState(() {
+                      textfieldlines = 3;
+                    });
+                  } else {
+                    setState(() {
+                      textfieldlines = 1;
+                    });
+                  }
+                },
                 SizedBox(
                   width: 63,
                   child: Row(
@@ -175,6 +199,10 @@ class _FormScreenState extends State<FormScreen> {
               ),
               const SizedBox(height: 8),
               TextFormField(
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400),
                 controller: _editingController,
                 cursorColor: AppColors.primaryColor,
                 keyboardType: TextInputType.none,
@@ -268,7 +296,8 @@ class _FormScreenState extends State<FormScreen> {
                   fillColor: Colors.grey.withOpacity(.15),
                   hintStyle: const TextStyle(
                     color: Colors.grey,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
                   ),
                   filled: true,
                   border: OutlineInputBorder(
@@ -317,6 +346,7 @@ class _FormScreenState extends State<FormScreen> {
                   ? _field(
                       "Withdrawal Amount",
                       "Maximum ${widget.numString}",
+                      1,
                       SizedBox(
                         width: 75,
                         child: Row(
@@ -371,6 +401,7 @@ class _FormScreenState extends State<FormScreen> {
                   : _field(
                       "Withdrawal Amount",
                       " ",
+                      1,
                       SizedBox(
                         width: 75,
                         child: Row(
@@ -554,10 +585,9 @@ class _FormScreenState extends State<FormScreen> {
                           Text(
                             "Receive amount",
                             style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
+                                color: Colors.grey,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600),
                           )
                         ],
                       ),
@@ -566,18 +596,24 @@ class _FormScreenState extends State<FormScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            "$withdrawalAmount ",
+                            withdrawalAmount == '0.00' ||
+                                    _controller.text.isEmpty
+                                ? '0.00'
+                                : withdrawalAmount,
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               color: AppColors.onSurface,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                          const SizedBox(
+                            width: 5,
+                          ),
                           Text(
                             widget.coinString,
                             style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
                               color: AppColors.onSurface,
                             ),
                           ),
@@ -598,19 +634,17 @@ class _FormScreenState extends State<FormScreen> {
                             children: [
                               Text(
                                 networkFee.toString(),
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  // fontWeight: FontWeight.bold,
-                                  color: AppColors.onSurface,
-                                ),
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400),
                               ),
                               Text(
-                                " ${widget.coinString}",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  // fontWeight: FontWeight.bold,
-                                  color: AppColors.onSurface,
-                                ),
+                                " USDT",
+                                style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400),
                               ),
                             ],
                           ),
@@ -621,9 +655,12 @@ class _FormScreenState extends State<FormScreen> {
                   const Spacer(),
                   FilledButton(
                     style: FilledButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor:
+                          withdrawalAmount == '0.00' || _controller.text.isEmpty
+                              ? AppColors.primaryColor.withOpacity(0.5)
+                              : AppColors.primaryColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(45),
                       ),
                     ),
                     onPressed: () {
@@ -632,11 +669,11 @@ class _FormScreenState extends State<FormScreen> {
                             msg: "Please Enter the amount to withdraw");
 
                         return;
-                      } else if (_addressControlle.text.length < 3 ||
-                          _editingController.text == "" ||
-                          _controller.text == "") {
-                        Fluttertoast.showToast(msg: "fill the credentials");
-                        return;
+                        // } else if (_addressControlle.text.length < 3 ||
+                        //     _editingController.text == "" ||
+                        //     _controller.text == "") {
+                        //   Fluttertoast.showToast(msg: "fill the credentials");
+                        //   return;
                       } else {
                         if (_fKey.currentState!.validate()) {
                           Navigator.push(
@@ -649,6 +686,10 @@ class _FormScreenState extends State<FormScreen> {
                                 address: _addressControlle.text,
                                 usAmount: _usdAmount.toString(),
                                 networkFee: networkFee.toString(),
+                                coinName: widget.coinString,
+                                remaning: (double.parse(widget.numString) -
+                                        double.parse(withdrawalAmount))
+                                    .toString(),
                               ),
                             ),
                           );
@@ -673,8 +714,15 @@ class _FormScreenState extends State<FormScreen> {
                         // );
                       }
                     },
-                    child: const Text(
+                    child: Text(
                       "Withdraw",
+                      style: TextStyle(
+                          color: withdrawalAmount == '0.00' ||
+                                  _controller.text.isEmpty
+                              ? Colors.black.withOpacity(0.3)
+                              : Colors.black,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -690,9 +738,14 @@ class _FormScreenState extends State<FormScreen> {
   Widget _field(
     String title,
     String hint,
+    int? max,
     Widget suffix, {
     TextEditingController? controller,
-    ValueChanged<String>? onChanged, // Add onChanged callback
+    ValueChanged<String>? onChanged,
+    FormFieldValidator<String>? validate,
+
+    // Add onChanged callback
+    // Add onChanged callback
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -701,24 +754,34 @@ class _FormScreenState extends State<FormScreen> {
           title,
           style: const TextStyle(
             color: Colors.grey,
-            fontWeight: FontWeight.bold,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 8),
         TextFormField(
+          cursorErrorColor: AppColors.primaryColor,
+          cursorColor: AppColors.primaryColor,
           controller: controller,
+          maxLines: max,
+
+          validator: validate,
+
+          style: const TextStyle(
+              color: Colors.black, fontSize: 14, fontWeight: FontWeight.w400),
           onChanged: onChanged, // Add onChanged to the TextFormField
           onTapOutside: (event) {
             primaryFocus?.unfocus();
           },
           decoration: InputDecoration(
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             hintText: hint,
             fillColor: Colors.grey.withOpacity(.15),
             hintStyle: const TextStyle(
               color: Colors.grey,
-              fontWeight: FontWeight.bold,
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
             ),
             filled: true,
             border: OutlineInputBorder(

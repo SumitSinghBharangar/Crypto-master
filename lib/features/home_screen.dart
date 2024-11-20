@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:binance/common/app_colors.dart';
 import 'package:binance/common/app_images.dart';
 import 'package:binance/common/models/coin_model.dart';
+import 'package:binance/features/choose_crypto_screen.dart';
 import 'package:binance/features/portfolio.dart';
 import 'package:binance/features/services/home_provider.dart';
 import 'package:binance/features/usermenu.dart';
@@ -42,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: _onRefresh,
-      color: Colors.blue,
+      color: AppColors.primaryColor,
       backgroundColor: Colors.white,
       child: Scaffold(
         body: Stack(
@@ -102,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             AnimatedPositioned(
               curve: Curves.fastEaseInToSlowEaseOut,
-              bottom: isTradeOpen ? 0 : -350,
+              bottom: isTradeOpen ? 0 : -400,
               left: 0,
               right: 0,
               duration: const Duration(milliseconds: 400),
@@ -155,7 +158,111 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      minSize: 0,
+                      onPressed: () {
+                        setState(() {
+                          isTradeOpen = false;
+                        });
+
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) =>
+                                    const ChooseCryptoScreen()));
+                      },
+                      child: Row(
+                        children: [
+                          Image.asset(
+                            'assets/sell.jpg',
+                            height: 40,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Sell",
+                                style: TextStyle(
+                                  color: AppColors.onSurface,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "BinancePlex",
+                                ),
+                              ),
+                              const Text(
+                                "Sell crypto with INR",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: "BinancePlex",
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ))
+                        ],
+                      ),
+                    ),
                     const SizedBox(height: 30),
+                    CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      minSize: 0,
+                      onPressed: () {
+                        setState(() {
+                          isTradeOpen = false;
+                        });
+
+                        Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) =>
+                                    const ChooseCryptoScreen()));
+                      },
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Image.asset(
+                            'assets/convert.png',
+                            height: 25,
+                            fit: BoxFit.cover,
+                          ),
+                          const SizedBox(width: 20),
+                          Expanded(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Convert",
+                                style: TextStyle(
+                                  color: AppColors.onSurface,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: "BinancePlex",
+                                ),
+                              ),
+                              const Text(
+                                "Trade with convert instantly",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: "BinancePlex",
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ))
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     CupertinoButton(
                       padding: EdgeInsets.zero,
                       minSize: 0,
@@ -186,55 +293,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   color: Colors.grey,
                                   fontSize: 14,
                                   fontFamily: "BinancePlex",
-                                ),
-                              ),
-                            ],
-                          ))
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 30),
-                    CupertinoButton(
-                      padding: EdgeInsets.zero,
-                      minSize: 0,
-                      onPressed: () {
-                        // setState(() {
-                        //   isTradeOpen = false;
-                        // });
-
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (_) => const FormScreen(),
-                        //   ),
-                        // );
-                      },
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            'assets/buy.png',
-                            height: 45,
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                              child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Sell",
-                                style: TextStyle(
-                                  color: AppColors.onSurface,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: "BinancePlex",
-                                ),
-                              ),
-                              const Text(
-                                "Sell crypto with INR",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontFamily: "BinancePlex",
-                                  fontSize: 14,
                                 ),
                               ),
                             ],
@@ -325,7 +383,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 0,
                 scrolledUnderElevation: 0,
                 title: _appBar(),
-                toolbarHeight: 161,
+                toolbarHeight: 120,
                 leadingWidth: 0,
                 leading: const SizedBox.shrink(),
               ),
@@ -351,7 +409,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         body: RefreshIndicator(
           onRefresh: _onRefresh,
-          color: Colors.blue,
+          color: AppColors.primaryColor,
           backgroundColor: Colors.white,
           child: Column(
             children: [
@@ -393,31 +451,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       Image.asset("assets/icons/${item.image}"),
                                 ),
                               ),
-                              // Container(
-                              //   width: 32,
-                              //   height: 32,
-                              //   decoration: const BoxDecoration(
-                              //     shape: BoxShape.circle,
-                              //   ),
-                              //   child: coin.iconUrl
-                              //           .split('.')
-                              //           .last
-                              //           .toLowerCase()
-                              //           .contains('svg')
-                              //       ? Center(
-                              //           child: SvgPicture.network(
-                              //             coin.iconUrl,
-                              //             height: 32,
-                              //           ),
-                              //         )
-                              //       : Center(
-                              //           child: Image.network(
-                              //             coin.iconUrl,
-                              //             height: 32,
-                              //           ),
-                              //         ),
-                              // ),
-                              const SizedBox(width: 14),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -425,16 +459,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Text(
                                       item.name ?? "",
                                       style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        letterSpacing: 0.2,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15,
                                       ),
                                     ),
-                                    // Text(
-                                    //   coin.symbol,
-                                    //   style: const TextStyle(
-                                    //     color: Colors.grey,
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -445,18 +475,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                     item.movement == "Up"
                                         ? "+${item.percentage}"
                                         : "-${item.percentage}",
-                                    // coin.change.contains('-')
-                                    //     ? coin.change
-                                    //     : ("+${coin.change}"),
                                     style: TextStyle(
                                       color: item.movement == "Up"
                                           ? Colors.green
                                           : Colors.red,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
+                                      letterSpacing: 0.2,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
                                     ),
                                   ),
-                                  Text("\$ ${item.price}"),
+                                  Text(
+                                    "\$${item.price}",
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      letterSpacing: 0.2,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],
@@ -486,9 +522,8 @@ class _HomeScreenState extends State<HomeScreen> {
             Image.asset(
               image,
               width: 38,
-              color: selected == index
-                  ? AppColors.onSurface
-                  : Colors.grey.shade500,
+              color:
+                  selected == index ? AppColors.onSurface : Color(0xFF848E9C),
             ),
             Text(
               title,
@@ -513,114 +548,128 @@ class _HomeScreenState extends State<HomeScreen> {
   Column _appBar() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const UserMenu(),
-                        ),
-                      );
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.circular(12),
+        Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const UserMenu(),
                       ),
-                      child: Image.asset(
-                        AppImages.brand,
-                        color: AppColors.onSurface,
-                        width: 28,
-                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Image.asset(
+                      AppImages.brand,
+                      color: AppColors.onSurface,
+                      width: 18,
                     ),
                   ),
-                  const Spacer(),
-                  IconButton(
+                ),
+                const Spacer(),
+                const Spacer(),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  width: 30,
+                  child: IconButton(
                     onPressed: () {},
                     icon: SvgPicture.asset(
                       AppSvg.search,
                       color: AppColors.onSurface,
-                      width: 20,
+                      width: 17,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      AppImages.qr,
-                      width: 20,
-                    ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    AppImages.qr,
+                    width: 15,
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      AppImages.pen,
-                      width: 20,
-                    ),
+                ),
+                IconButton(
+                  onPressed: () {},
+                  icon: Image.asset(
+                    AppImages.pen,
+                    width: 14,
+                    fit: BoxFit.cover,
                   ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Total Balance",
-                              style: TextStyle(
-                                color: AppColors.onSurface,
-                                fontSize: 14,
-                              ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Total Balance",
+                            style: TextStyle(
+                              color: AppColors.onSurface,
+                              fontSize: 14,
                             ),
-                            const SizedBox(width: 4),
-                            const Icon(
-                              Icons.visibility,
-                              size: 14,
-                              color: Colors.grey,
-                            )
-                          ],
-                        ),
-                        BalanceTextWidget(),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        FilledButton(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: AppColors.primaryColor,
-                            foregroundColor: AppColors.onSurface,
                           ),
-                          onPressed: () {},
-                          child: const Text("Add Funds"),
-                        ),
-                      ],
-                    ),
+                          const SizedBox(width: 4),
+                          const Icon(
+                            Icons.visibility,
+                            size: 14,
+                            color: Color(0xFF848E9C),
+                          )
+                        ],
+                      ),
+                      const BalanceTextWidget(),
+                    ],
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      FilledButton(
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.primaryColor,
+                          foregroundColor: AppColors.onSurface,
+                        ),
+                        onPressed: () {},
+                        child: const Text(
+                          "Add Funds",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
         const SizedBox(height: 15),
         Container(
           width: double.infinity,
-          height: 1,
+          height: 1.5,
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(.1),
+            color: Colors.grey.withOpacity(.7),
           ),
         ),
       ],
@@ -638,9 +687,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 "Watchlist",
                 style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black.withOpacity(.4),
-                    fontWeight: FontWeight.bold,
+                    color: Colors.black.withOpacity(0.5),
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
                     fontFamily: "BinancePlex"),
               ),
             ),
@@ -651,9 +701,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Text(
                 "Coin",
                 style: TextStyle(
-                    fontSize: 18,
                     color: Colors.black,
-                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.2,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
                     fontFamily: "BinancePlex"),
               ),
             ),
@@ -671,7 +722,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        // const SizedBox(height: 10),
       ],
     );
   }
@@ -682,37 +733,33 @@ class _HomeScreenState extends State<HomeScreen> {
     bool? hasArrow,
   }) {
     return Container(
-      margin: const EdgeInsets.only(right: 10),
-      padding: const EdgeInsets.only(
-        left: 8,
-        right: 8,
-        top: 2,
-        bottom: 2,
-      ),
       decoration: BoxDecoration(
         color: (selected ?? false) ? Colors.grey.withOpacity(.2) : null,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              color: (selected ?? false)
-                  ? AppColors.onSurface
-                  : Colors.grey.shade700.withOpacity(1),
-              fontSize: 14,
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              text,
+              style: TextStyle(
+                color: (selected ?? false)
+                    ? AppColors.onSurface
+                    : Colors.grey.shade700.withOpacity(1),
+                fontSize: 14,
+              ),
             ),
-          ),
-          if (hasArrow ?? false) const SizedBox(width: 4),
-          if (hasArrow ?? false)
-            Image.asset(
-              'assets/arrows.png',
-              height: 12,
-              color: Colors.grey.shade500,
-            ),
-        ],
+            if (hasArrow ?? false) const SizedBox(width: 4),
+            if (hasArrow ?? false)
+              Image.asset(
+                'assets/arrows.png',
+                height: 12,
+                color: Colors.grey.shade500,
+              ),
+          ],
+        ),
       ),
     );
   }

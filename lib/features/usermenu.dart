@@ -26,7 +26,9 @@ class UserMenu extends StatelessWidget {
             padding: const EdgeInsets.only(right: 15),
             child: Image.asset(
               'assets/IMG_20241114_091824.jpg',
-              width: screenWidth > 600 ? 90 : 70, // Adjust size for tablet vs mobile
+              width: screenWidth > 600
+                  ? 90
+                  : 70, // Adjust size for tablet vs mobile
             ),
           ),
         ],
@@ -46,7 +48,8 @@ class UserMenu extends StatelessWidget {
                 },
                 icon: Image.asset(
                   'assets/IMG_20241113_183832.jpg',
-                  width: screenWidth > 600 ? 150 : 120, // Larger image for tablet
+                  width:
+                      screenWidth > 600 ? 150 : 90, // Larger image for tablet
                 ),
               ),
               Expanded(
@@ -57,15 +60,15 @@ class UserMenu extends StatelessWidget {
                     Text(
                       'ID: 518851134',
                       style: TextStyle(
-                        color: Colors.grey.withOpacity(.8),
-                      ),
+                          color: Colors.grey.shade600,
+                          fontWeight: FontWeight.w600),
                     ),
                     const SizedBox(height: 5),
                     Text(
                       'User-cfa21',
                       style: TextStyle(
                         color: AppColors.onSurface,
-                        fontSize: 18,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                         fontFamily: "BinancePlex",
                       ),
@@ -74,7 +77,7 @@ class UserMenu extends StatelessWidget {
                     Row(
                       children: [
                         Container(
-                          width: 70,
+                          width: 65,
                           decoration: BoxDecoration(
                             color: const Color(0xFFe3f7ee),
                             borderRadius: BorderRadius.circular(5),
@@ -88,7 +91,7 @@ class UserMenu extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Container(
-                          width: 70,
+                          width: 65,
                           decoration: BoxDecoration(
                             color: const Color(0xFFfdf6e4),
                             borderRadius: BorderRadius.circular(5),
@@ -125,37 +128,48 @@ class UserMenu extends StatelessWidget {
             color: Colors.grey.withOpacity(.2),
             thickness: 0.5,
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 25),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildMenuItem('assets/IMG_20241114_094409.jpg', 'Deposit'),
-              _buildMenuItem('assets/IMG-20241114-WA0101-removebg-preview.png', 'Convert'),
+              _buildMenuItem('assets/convert.png', 'Convert'),
               _buildMenuItem('assets/IMG_20241114_094531.jpg', 'Referral'),
-              _buildMenuItem('assets/IMG_20241114_094511.jpg', 'Rewards\n    Hub'),
+              _buildMenuItem(
+                  'assets/IMG_20241114_094511.jpg', 'Rewards\n    Hub'),
             ],
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildMenuItem('assets/IMG_20241114_094443.jpg', 'FAQ'),
-              const SizedBox(width: 50,),
-              const SizedBox(width: 50,),
-              const SizedBox(width: 50,)
+              const SizedBox(
+                width: 50,
+              ),
+              const SizedBox(
+                width: 50,
+              ),
+              const SizedBox(
+                width: 50,
+              )
             ],
           ),
           // Move the image here to make it appear at the bottom
-          const Expanded(child: SizedBox()),  // Ensure image is at the bottom of the screen
+          const Expanded(
+              child: SizedBox()), // Ensure image is at the bottom of the screen
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
+            padding: const EdgeInsets.symmetric(horizontal: 13),
             child: Image.asset(
               'assets/IMG_20241114_073411.jpg',
               width: double.infinity,
-              height: 80,
+              height: 75,
             ),
           ),
-          SizedBox(height: 15,),
+          SizedBox(
+            height: 15,
+          ),
         ],
       ),
     );
@@ -167,9 +181,9 @@ class UserMenu extends StatelessWidget {
       children: [
         Image.asset(
           asset,
-          width: 25,
+          width: 24,
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 7),
         Text(text),
       ],
     );

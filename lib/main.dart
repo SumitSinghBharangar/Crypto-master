@@ -11,7 +11,7 @@ void main() async {
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
 
   runApp(
     MultiProvider(
@@ -33,7 +33,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "BinancePlex",
         colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.primaryColor,
+          seedColor: Colors.white,
           surface: Colors.white,
         ),
       ),

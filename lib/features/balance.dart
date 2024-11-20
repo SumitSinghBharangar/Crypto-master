@@ -5,6 +5,8 @@ class BalanceTextWidget extends StatelessWidget {
   // Fixed document ID
   final String documentId = 'info';
 
+  const BalanceTextWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<DocumentSnapshot>(
@@ -14,8 +16,15 @@ class BalanceTextWidget extends StatelessWidget {
           .get(), // Fetch the document snapshot
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text(
-              'Loading...'); // Show loading state while fetching data
+          return Text(
+            'Loading...',
+            style: TextStyle(
+              color: Colors.black.withOpacity(0.5),
+              letterSpacing: 0.2,
+              fontWeight: FontWeight.w600,
+              fontSize: 13,
+            ),
+          ); // Show loading state while fetching data
         }
 
         if (snapshot.hasError) {
@@ -32,11 +41,13 @@ class BalanceTextWidget extends StatelessWidget {
         print(balance);
         // Return the text displaying the balance with Euro symbol
         return Text(
-          '\$ ${balance}', // Display balance in Euros (no conversion needed)
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.black, // Customize text color if needed
+          '\$$balance',
+          softWrap: true,
+          style: const TextStyle(
+            letterSpacing: 0.5,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 25, // Customize text color if needed
           ),
         );
       },
