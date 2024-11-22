@@ -28,7 +28,7 @@ class UserMenu extends StatelessWidget {
               'assets/IMG_20241114_091824.jpg',
               width: screenWidth > 600
                   ? 90
-                  : 70, // Adjust size for tablet vs mobile
+                  : 60, // Adjust size for tablet vs mobile
             ),
           ),
         ],
@@ -49,7 +49,7 @@ class UserMenu extends StatelessWidget {
                 icon: Image.asset(
                   'assets/IMG_20241113_183832.jpg',
                   width:
-                      screenWidth > 600 ? 150 : 90, // Larger image for tablet
+                      screenWidth > 600 ? 150 : 70, // Larger image for tablet
                 ),
               ),
               Expanded(
@@ -61,19 +61,20 @@ class UserMenu extends StatelessWidget {
                       'ID: 518851134',
                       style: TextStyle(
                           color: Colors.grey.shade600,
-                          fontWeight: FontWeight.w600),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12),
                     ),
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 3),
                     Text(
                       'User-cfa21',
                       style: TextStyle(
                         color: AppColors.onSurface,
-                        fontSize: 16,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                         fontFamily: "BinancePlex",
                       ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     Row(
                       children: [
                         Container(
@@ -85,7 +86,8 @@ class UserMenu extends StatelessWidget {
                           child: const Center(
                             child: Text(
                               'Verified',
-                              style: TextStyle(color: Color(0xFF00c080)),
+                              style: TextStyle(
+                                  color: Color(0xFF00c080), fontSize: 12),
                             ),
                           ),
                         ),
@@ -99,7 +101,8 @@ class UserMenu extends StatelessWidget {
                           child: const Center(
                             child: Text(
                               'Regular',
-                              style: TextStyle(color: Color(0xFFCAA223)),
+                              style: TextStyle(
+                                  color: Color(0xFFCAA223), fontSize: 12),
                             ),
                           ),
                         ),
@@ -110,12 +113,12 @@ class UserMenu extends StatelessWidget {
               ),
               Container(
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 20),
+                  padding: const EdgeInsets.only(right: 15),
                   child: Row(
                     children: [
                       Image.asset(
                         'assets/IMG-20241114-WA0108-removebg-preview.png',
-                        width: 10,
+                        width: 9,
                       ),
                     ],
                   ),
@@ -123,12 +126,12 @@ class UserMenu extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           Divider(
             color: Colors.grey.withOpacity(.2),
             thickness: 0.5,
           ),
-          const SizedBox(height: 25),
+          const SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -140,7 +143,7 @@ class UserMenu extends StatelessWidget {
                   'assets/IMG_20241114_094511.jpg', 'Rewards\n    Hub'),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -164,11 +167,11 @@ class UserMenu extends StatelessWidget {
             child: Image.asset(
               'assets/IMG_20241114_073411.jpg',
               width: double.infinity,
-              height: 75,
+              height: 70,
             ),
           ),
-          SizedBox(
-            height: 15,
+          const SizedBox(
+            height: 14,
           ),
         ],
       ),
@@ -181,9 +184,9 @@ class UserMenu extends StatelessWidget {
       children: [
         Image.asset(
           asset,
-          width: 24,
+          width: 20,
         ),
-        const SizedBox(height: 7),
+        const SizedBox(height: 6),
         Text(text),
       ],
     );

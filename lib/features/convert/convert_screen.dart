@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:binance/common/app_collection.dart';
 import 'package:binance/common/app_colors.dart';
 import 'package:binance/common/models/transection_model.dart';
 import 'package:binance/features/form_screen.dart';
+import 'package:binance/features/withdraw/withdraw_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -287,7 +290,7 @@ class _ConvertScreenState extends State<ConvertScreen> {
                         child: SingleChildScrollView(
                           child: StreamBuilder<QuerySnapshot>(
                             stream: transaction_history
-                                .orderBy("Time", descending: true)
+                                .where("CoinCode", isEqualTo: widget.image)
                                 .snapshots(),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
@@ -295,8 +298,7 @@ class _ConvertScreenState extends State<ConvertScreen> {
                                 return Center(
                                     child: Image.asset("assets/loading.gif"));
                               } else if (snapshot.hasError) {
-                                return Center(
-                                    child: Text('Error: ${snapshot.error}'));
+                                return Center(child: SizedBox());
                               } else if (!snapshot.hasData ||
                                   snapshot.data!.docs.isEmpty) {
                                 return const SizedBox();
@@ -318,65 +320,95 @@ class _ConvertScreenState extends State<ConvertScreen> {
                                   String dt = DateFormat('yyyy-MM-dd HH:mm:ss')
                                       .format(model.Time);
 
-                                  return Column(
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                  String txid = transaction_history.doc().id;
+
+                                  String dtt = DateFormat('yyyy-MM-dd HH:mm:ss')
+                                      .format(model.Time);
+
+                                  return InkWell(
+                                    onTap: () {
+                                      log("tapped");
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) =>
+                                              WithdrawDetailsScreen(
+                                            networkFee: model.NetworkFee,
+                                            coinString: model.CoinCode,
+                                            withDrawAmount: model.Amount,
+                                            network: model.Network,
+                                            address: model.Address,
+                                            coinName: model.CoinName,
+                                            taxid: txid,
+                                            date: dtt,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    child: SizedBox(
+                                      child: Column(
                                         children: [
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
+                                          Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                model.Type,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black,
-                                                ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    model.Type,
+                                                    style: const TextStyle(
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Colors.black,
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    "Crypto",
+                                                    style: TextStyle(
+                                                        color: Colors.grey,
+                                                        fontSize: 12),
+                                                  ),
+                                                  Text(
+                                                    dt,
+                                                    style: const TextStyle(
+                                                      fontSize: 11,
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                              const Text(
-                                                "Crypto",
+                                              const Spacer(),
+                                              Text(
+                                                model.Type == "Withdraw"
+                                                    ? "-${model.Amount}"
+                                                    : "+${model.Amount}",
                                                 style: TextStyle(
-                                                    color: Colors.grey,
-                                                    fontSize: 12),
-                                              ),
-                                              Text(
-                                                dt,
-                                                style: const TextStyle(
-                                                  fontSize: 11,
-                                                  color: Colors.grey,
+                                                  fontSize: 15,
+                                                  color: model.Type ==
+                                                          "Withdraw"
+                                                      ? const Color.fromARGB(
+                                                          255, 248, 20, 4)
+                                                      : Colors.green,
                                                 ),
                                               ),
+                                              const SizedBox(width: 5),
+                                              const SizedBox(width: 5),
                                             ],
                                           ),
-                                          const Spacer(),
-                                          Text(
-                                            model.Type == "Withdraw"
-                                                ? "-${model.Amount}"
-                                                : "+${model.Amount}",
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              color: model.Type == "Withdraw"
-                                                  ? const Color.fromARGB(
-                                                      255, 248, 20, 4)
-                                                  : Colors.green,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 5),
-                                          const SizedBox(width: 5),
+                                          Divider(
+                                            thickness: 0.2,
+                                            color: Colors.grey.withOpacity(0.8),
+                                          )
                                         ],
                                       ),
-                                      Divider(
-                                        thickness: 0.2,
-                                        color: Colors.grey.withOpacity(0.8),
-                                      )
-                                    ],
+                                    ),
                                   );
                                 },
                               );

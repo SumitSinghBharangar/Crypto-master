@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:binance/common/app_collection.dart';
-import 'package:binance/common/models/currency_model.dart';
+
 import 'package:binance/common/models/transection_model.dart';
-import 'package:binance/common/models/withdraw_model.dart';
+
 import 'package:binance/features/withdraw/withdraw_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -286,7 +286,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 Expanded(
                   flex: 2,
                   child: Text(
-                    "Spot Wallet",
+                    "Funding Wallet",
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       fontSize: 12,
@@ -341,11 +341,16 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 });
 
                 TransectionModel tmodel = TransectionModel(
-                    Amount: widget.withDrawAmount,
-                    CoinCode: widget.coinString,
-                    CoinName: widget.coinName,
-                    Time: DateTime.now(),
-                    Type: "Withdraw");
+                  Network: widget.network,
+                  Amount: widget.withDrawAmount,
+                  CoinCode: widget.coinString,
+                  CoinName: widget.coinName,
+                  Time: DateTime.now(),
+                  Type: "Withdraw",
+                  NetworkFee: widget.networkFee,
+                  Wallet: "Funding Wallet",
+                  Address: widget.address,
+                );
 
                 await transaction_history.doc().set(tmodel.toMap());
 
