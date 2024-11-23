@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:binance/common/app_colors.dart';
 import 'package:binance/common/models/transection_model.dart';
 
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 class WithdrawDetailsScreen extends StatefulWidget {
@@ -65,14 +68,14 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 8,
+            height: 6,
           ),
           Center(
             child: Text(
-              widget.withDrawAmount,
+              "- ${widget.withDrawAmount} ${widget.coinString}",
               style: const TextStyle(
-                fontSize: 27,
-                fontWeight: FontWeight.bold,
+                fontSize: 29,
+                fontWeight: FontWeight.w800,
                 color: Colors.black,
               ),
             ),
@@ -83,14 +86,14 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
             children: [
               Icon(
                 Icons.check_circle_sharp,
-                color: Colors.green,
-                size: 15,
+                color: Color(0xff35bb88),
+                size: 18,
               ),
               Text(
                 " Completed",
                 style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.green,
+                  fontSize: 14,
+                  color: Color(0xff35bb88),
                   fontWeight: FontWeight.bold,
                 ),
               )
@@ -101,17 +104,23 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
               "Crypto transfered out of Binance. Please contact the\n recipient platform for your transection receipt.",
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.grey,
+                color: Color(0xff8b8c8e),
               ),
             ),
           ),
+          const SizedBox(
+            height: 3,
+          ),
           Center(
-            child: Text(
-              "Why hasn't my withdrawal arrived?",
-              style: TextStyle(
-                fontSize: 12,
-                color: AppColors.primaryColor,
-                fontWeight: FontWeight.bold,
+            child: Container(
+              color: AppColors.primaryColor.withOpacity(0.1),
+              child: const Text(
+                "Why hasn't my withdrawal arrived?",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Color(0xffb5a85d),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -119,7 +128,7 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
             height: 20,
           ),
           Divider(
-            color: Colors.grey.shade200,
+            color: Colors.grey.shade100,
             height: 0.2,
           ),
           const SizedBox(
@@ -138,74 +147,39 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                     const Flexible(
                       child: Text(
                         "Network",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xff8b8c8e)),
                       ),
                     ),
                     const Spacer(),
                     Flexible(
-                      child: Text(
-                        widget.network,
-                        textAlign: TextAlign.end,
-                        style: const TextStyle(
+                      child: Container(
+                        color: AppColors.primaryColor.withOpacity(0.15),
+                        child: Text(
+                          widget.network,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
                             fontSize: 12,
-                            color: Colors.amber,
-                            fontWeight: FontWeight.bold),
+                            color: Color(0xffb5a85d),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     )
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Flexible(
                       child: Text(
                         "Address",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xff8b8c8e)),
                       ),
                     ),
-                    Flexible(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.address,
-                            textAlign: TextAlign.end,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              // fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Icon(
-                            Icons.copy,
-                            size: 18,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Flexible(
-                      child: Text(
-                        "Txid",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    ),
-                    const Spacer(),
                     Flexible(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -213,28 +187,89 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                         children: [
                           Flexible(
                             child: Text(
-                              widget.taxid,
+                              widget.address,
                               textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                // fontWeight: FontWeight.bold,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black.withOpacity(.6),
                               ),
                             ),
                           ),
                           const SizedBox(
                             width: 5,
                           ),
-                          const Icon(
-                            Icons.copy,
-                            size: 18,
-                          ),
+                          Image.asset(
+                            "assets/icons/copy.jpg",
+                            height: 20,
+                            width: 15,
+                          )
                         ],
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Flexible(
+                      child: Text(
+                        "Txid",
+                        style: TextStyle(color: Color(0xff8b8c8e)),
+                      ),
+                    ),
+                    Flexible(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Off-Chain Transfer",
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black.withOpacity(.6),
+                                  ),
+                                ),
+                                FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    generate12Digits(),
+                                    textAlign: TextAlign.end,
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black.withOpacity(.6),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Image.asset(
+                            "assets/icons/copy.jpg",
+                            height: 20,
+                            width: 15,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,7 +278,7 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                     const Flexible(
                       child: Text(
                         "Amount",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xff8b8c8e)),
                       ),
                     ),
                     Flexible(
@@ -254,18 +289,20 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                             child: Text(
                               "${widget.withDrawAmount} ",
                               textAlign: TextAlign.end,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                // fontWeight: FontWeight.bold,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black.withOpacity(.6),
                               ),
                             ),
                           ),
                           Text(
                             "${widget.coinString.toUpperCase()} ",
                             textAlign: TextAlign.end,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              // fontWeight: FontWeight.bold,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black.withOpacity(.6),
                             ),
                           ),
                         ],
@@ -274,7 +311,7 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -283,52 +320,54 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                     const Flexible(
                       child: Text(
                         "Network Fee",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xff8b8c8e)),
                       ),
                     ),
                     const Spacer(),
                     Flexible(
                       child: Text(
-                        "${widget.networkFee} ${widget.coinString}",
+                        "${widget.networkFee} USDT",
                         textAlign: TextAlign.end,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          // fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(.6),
                         ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
-                const Row(
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Expanded(
+                    const Expanded(
                       flex: 1,
                       child: Text(
                         "Wallet",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xff8b8c8e)),
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Expanded(
                       flex: 2,
                       child: Text(
                         "Funding Wallet",
                         textAlign: TextAlign.end,
                         style: TextStyle(
-                          fontSize: 12,
-                          // fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(.6),
                         ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -338,18 +377,27 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
                       flex: 1,
                       child: Text(
                         "Date",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: Color(0xff8b8c8e)),
                       ),
                     ),
                     const Spacer(),
                     Flexible(
                       flex: 2,
                       child: Text(
-                        widget.date,
+                        DateFormat("yyyy-MM-dd hh:mm:ss").format(
+                          DateFormat("yyyy-MM-dd hh:mm:ss")
+                              .parse(widget.date)
+                              .add(
+                                const Duration(
+                                  minutes: 120,
+                                ),
+                              ),
+                        ),
                         textAlign: TextAlign.end,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          // fontWeight: FontWeight.bold,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black.withOpacity(.6),
                         ),
                       ),
                     ),
@@ -360,25 +408,61 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
           ),
 
           const SizedBox(
-            height: 20,
+            height: 30,
           ),
-          Center(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(12),
+          Row(
+            children: [
+              const SizedBox(
+                width: 15,
               ),
-              child: const Text(
-                "Scam Report",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Colors.black,
+              Expanded(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffebecf0),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Scam Report",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          )
-
+              const SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                  decoration: BoxDecoration(
+                    color: const Color(0xffebecf0),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Save Address",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 15,
+              ),
+            ],
+          ),
           // GestureDetector(
           //   onTap: () async {
           //     _fetchAndAddTime();
@@ -444,4 +528,14 @@ class _WithdrawDetailsScreen extends State<WithdrawDetailsScreen> {
       ),
     );
   }
+}
+
+String generate12Digits() {
+  var rng = Random();
+  String generatedNumber = '';
+  for (int i = 0; i < 12; i++) {
+    generatedNumber += (rng.nextInt(9) + 1).toString();
+  }
+
+  return generatedNumber;
 }

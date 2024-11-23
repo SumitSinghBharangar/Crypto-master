@@ -142,7 +142,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                     style: TextStyle(color: Colors.grey),
                   ),
                   Text(
-                    "${widget.usAmount}",
+                    widget.usAmount,
                     style: const TextStyle(color: Colors.grey),
                   )
                 ],
@@ -258,7 +258,7 @@ class _ConfirmOrderScreenState extends State<ConfirmOrderScreen> {
                 const Spacer(),
                 Flexible(
                   child: Text(
-                    "${widget.networkFee} ${widget.coinString}",
+                    "${widget.networkFee} USDT",
                     textAlign: TextAlign.end,
                     style: const TextStyle(
                       fontSize: 12,
